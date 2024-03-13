@@ -1,14 +1,29 @@
-import { Pressable, TextInput, View, Text, StyleSheet} from "react-native";
+import { Pressable, TextInput, View, Text, StyleSheet, Keyboard} from "react-native";
 import { useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //always capitalize the first letter
 //you can use TouchableOpacity instead of Pressable
 export default function AddTask({taskList, setTaskList}){
     const [task, setTask] = useState(null);
 
+    const storeTask = async(newTask) =>{
+        try{
+            await AsyncStorage.setItem('taskList', JSON.stringify(newTask));
+        }
+        catch(error){
+    console.log(error);
+        }
+    }
+
     const eventHandler = () => {
-        setTaskList(taskList => [...taskList, String(task)])
+        if(task != null){
+            const newTask = [...taskList, {text: String(task), complete: false}];
+        setTaskList(newTask);
+        storeTask(newTask);
         setTask(null);
+        Keyboard.dismiss();
+        }
     };
 
 return(
