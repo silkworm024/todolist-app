@@ -29,7 +29,7 @@ margin: 5,
       },
       wrapper:{
         height: 50,
-        width: 300,
+        width: 330,
         marginTop: 20,
         borderRadius: 8,
         backgroundColor: '#ffffff',

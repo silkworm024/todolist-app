@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View, ActivityIndicator} from "react-native";
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View, ActivityIndicator, FlatList} from "react-native";
 import { useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Task from "./components/Task.js";
@@ -41,7 +41,6 @@ setIsLoaded(true);
 //with empty array, it will only load once
 useEffect(() => {loadTask()}, []);
 
-//key is not accessible
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -49,14 +48,16 @@ useEffect(() => {loadTask()}, []);
       </View>
       <View style={styles.taskWrapper}>
         {isLoaded ? 
-        <ScrollView>
-        {taskList.map((task, index) => (
+        <FlatList
+          data={taskList}
+        renderItem={({item, index}) => (
           <View key={index} style={styles.individualWrapper}>
-          <Task text={task.text} complete={task.complete} onPress={() => handlePressEvent(index)}/>
+          <Task text={item.text} complete={item.complete} onPress={() => handlePressEvent(index)}/>
           <RemoveTask index={index} taskList={taskList} setTaskList={setTaskList} />
           </View>
-        ))}
-</ScrollView>
+        )}
+        keyExtractor={(_, i) => i}
+/>
 :
 <ActivityIndicator></ActivityIndicator>}
       </View>
@@ -77,16 +78,16 @@ const styles = StyleSheet.create({
   header: {
     alignItems: "left",
     marginTop: 70,
-    marginLeft: 15,
+    marginLeft: 20,
   },
   taskWrapper: {
     height: '70%',
     marginTop: 20,
-    marginLeft: 15,
+    marginLeft: 20,
     marginRight: 15,
   },
   inputWrapper: {
-    marginLeft: 15,
+    marginLeft: 20,
     marginRight: 15,
     position: 'absolute',
     bottom: 30,

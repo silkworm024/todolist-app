@@ -2,8 +2,6 @@ import { Pressable, TextInput, View, Text, StyleSheet, Keyboard} from "react-nat
 import { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//always capitalize the first letter
-//you can use TouchableOpacity instead of Pressable
 export default function AddTask({taskList, setTaskList}){
     const [task, setTask] = useState(null);
 
@@ -18,7 +16,18 @@ export default function AddTask({taskList, setTaskList}){
 
     const eventHandler = () => {
         if(task != null){
-            const newTask = [...taskList, {text: String(task), complete: false}];
+            let newTask = [];
+            if(taskList.length != 0){    // to add new task before complete task
+            let index = 0;
+            while(index < taskList.length && !taskList[index].complete){
+                index++;
+            }
+            newTask = [...taskList.slice(0, index), {text: String(task), complete: false}];
+            newTask = newTask.concat(taskList.slice(index))
+        }
+        else{
+newTask = [...taskList, {text: String(task), complete: false}]
+        }
         setTaskList(newTask);
         storeTask(newTask);
         setTask(null);
@@ -44,13 +53,14 @@ flexDirection: 'row',
     },
     inputWrapper:{
         height: 40,
-        width: 300,
+        width: 330,
         borderRadius: 8,
 backgroundColor: '#ffffff',
 padding: 10,
     },
     button:{
         padding: 10,
+        paddingLeft: 20,
     },
     text:{
         fontWeight: 'bold',

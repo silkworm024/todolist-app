@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet} from "react-native";
+import { Pressable, StyleSheet, View} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RemoveTask({taskList, setTaskList, index}){
@@ -15,17 +15,19 @@ export default function RemoveTask({taskList, setTaskList, index}){
       }
 
       return(
-    <Pressable style={styles.square} onPress={eventHandler}></Pressable>
+    <Pressable onPress={eventHandler}>
+      <View style={styles.line} ></View>
+    </Pressable>
       )
 }
 
 const styles = StyleSheet.create({
-      square:{
-            width: 18,
-    aspectRatio: 6,
+      line:{
+            width: 20,
+    aspectRatio: 5,
     borderRadius: 4,
     marginTop: 43,
-    marginLeft: 20,
+    marginLeft: 25,
     backgroundColor: '#888',
     justifyContent: 'right',
           },
