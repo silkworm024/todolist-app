@@ -4,6 +4,7 @@ This is a simple cross-platform to-do list app built with React Native. It allow
 # Setup
 ```
 git clone https://github.com/silkworm024/todolist-app.git
+npm install
 npx expo start
 ```
 Then, download Expo Go and scan the QR code to view the prototype.
